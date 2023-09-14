@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/dist/output.css" />
+    <title>Bookshelf Ruge</title>
+  </head>
+
+  <body>
+    <div
+      id="bookModal"
+      class="min-w-screen h-screen fixed left-0 top-0 hidden place-items-center inset-0 z-50"
+    >
+      <div id="modalBackdrop" class="absolute bg-black opacity-50 inset-0 z-0"></div>
+      <div class="w-full max-w-xl p-5 relative mx-auto my-auto rounded-lg shadow-lg bg-zinc-800">
+        <h2 id="modalHeader" class="text-white text-xl font-bold">Create Book</h2>
+        <hr class="my-2 border-t-2 border-purple-700" />
+        <form id="bookForm" class="flex flex-col gap-2">
+          <input type="hidden" value="" name="type" />
+          <input type="hidden" value="" name="id" id="bookId" />
+          <div class="">
+            <label for="titleInput" class="text-zinc-400 text-sm">Title</label>
+            <input
+              required
+              class="text-white w-full l p-2 outline-none border-2 bg-transparent border-zinc-700 focus:border-purple-700 rounded-lg placeholder:text-zinc-600"
+              type="text"
+              placeholder="Insert title..."
+              name="title"
+              id="titleInput"
+            />
+          </div>
+          <div class="">
+            <label for="authorInput" class="text-zinc-400 text-sm">Author</label>
+            <input
+              required
+              class="text-white w-full l p-2 outline-none border-2 bg-transparent border-zinc-700 focus:border-purple-700 rounded-lg placeholder:text-zinc-600"
+              type="text"
+              placeholder="Insert author..."
+              name="author"
+              id="authorInput"
+            />
+          </div>
+          <div class="">
+            <label for="yearInput" class="text-zinc-400 text-sm">Year</label>
+            <input
+              required
+              class="text-white w-full l p-2 outline-none border-2 bg-transparent border-zinc-700 focus:border-purple-700 rounded-lg placeholder:text-zinc-600"
+              type="number"
+              placeholder="Insert year..."
+              name="year"
+              id="yearInput"
+            />
+          </div>
+          <div class="flex items-center mt-2 pl-4 border-2 border-zinc-700 rounded-lg">
+            <input
+              id="completedInput"
+              type="checkbox"
+              value=""
+              name="completed"
+              class="w-4 h-4 text-purple-600 rounded-lg focus:ring-purple-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+            />
+            <label for="completedInput" class="w-full py-4 ml-2 text-sm text-zinc-400"
+              >Completed</label
+            >
+          </div>
+          <div class="w-full flex gap-3 justify-center">
+            <button
+              type="submit"
+              class="text-white w-24 bg-gradient-to-br from-purple-500 to-purple-950 hover:brightness-125 rounded-lg transition-all duration-200 ease-out"
+            >
+              Save
+            </button>
+            <button
+              type="reset"
+              class="text-white w-24 py-2 px-4 bg-zinc-700 hover:brightness-125 rounded-lg transition-all duration-200 ease-out"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="bg-zinc-900 min-h-screen flex flex-col">
+      <header
+        class="w-full h-20 bg-gradient-to-br from-purple-500 to-purple-950 flex-shrink-0 flex justify-between items-center px-5 sm:px-20 shadow-lg"
+      >
+        <h1
+          class="text-transparent bg-clip-text bg-gradient-to-br from-slate-300 to-50% to-white text-xl sm:text-2xl font-bold"
+        >
+          Bookshelf Ruge
+        </h1>
+        <div class="flex flex-wrap gap-2 text-white">
+          <a
+            class="border-2 border-white rounded-full p-2 hover:bg-zinc-700 transition-colors"
+            href="https://github.com/rugefx"
+            target="_blank"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="bi bi-github h-4 sm:h-6"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+              />
+            </svg>
+          </a>
+        </div>
+      </header>
+      <main class="px-5 sm:px-20 py-5 overflow-hidden h-full w-full flex gap-5">
+        <aside class="p-2 bg-zinc-800 text-white rounded-lg lg:w-96">
+          <div class="w-full grid grid-flow-row gap-2">
+            <button
+              id="allBooksBtn"
+              class="group relative bg-zinc-700 rounded-lg p-5 w-full overflow-hidden shadow-lg hover:brightness-110 transition-all"
+            >
+              <div class="relative z-10 flex items-center gap-8 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-book h-8 pointer-events-none"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"
+                  />
+                </svg>
+                <span class="hidden lg:block pointer-events-none">All Books</span>
+              </div>
+              <div
+                class="z-0 absolute inset-0 w-full scale-125 border-white bg-gradient-to-br from-purple-500 to-purple-950 transition-all duration-300 ease-out group-hover:translate-x-0 pointer-events-none"
+              ></div>
+            </button>
+            <button
+              id="notCompletedBtn"
+              class="group relative bg-zinc-700 rounded-lg p-5 w-full overflow-hidden shadow-lg hover:brightness-110 transition-colors"
+            >
+              <div class="relative z-10 flex items-center gap-8 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-journal-bookmark h-8 pointer-events-none"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8z"
+                  />
+                  <path
+                    d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"
+                  />
+                  <path
+                    d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"
+                  />
+                </svg>
+                <span class="hidden lg:block pointer-events-none">Not Completed</span>
+              </div>
+              <div
+                class="z-0 absolute inset-0 w-full scale-125 border-white -translate-x-[125%] bg-gradient-to-br from-purple-500 to-purple-950 transition-all duration-300 ease-out group-hover:translate-x-0 pointer-events-none"
+              ></div>
+            </button>
+            <button
+              id="completedBtn"
+              class="group relative bg-zinc-700 rounded-lg p-5 w-full overflow-hidden shadow-lg hover:brightness-110 transition-colors"
+            >
+              <div class="relative z-10 flex items-center gap-8 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-journal-bookmark-fill h-8 pointer-events-none"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8V1z"
+                  />
+                  <path
+                    d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"
+                  />
+                  <path
+                    d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"
+                  />
+                </svg>
+                <span class="hidden lg:block pointer-events-none">Completed</span>
+              </div>
+              <div
+                class="z-0 absolute inset-0 w-full scale-125 border-white -translate-x-[125%] bg-gradient-to-br from-purple-500 to-purple-950 transition-all duration-300 ease-out group-hover:translate-x-0 pointer-events-none"
+              ></div>
+            </button>
+          </div>
+          <hr class="my-2 border-t-2 border-zinc-500" />
+        </aside>
+        <div class="w-full h-full flex flex-col gap-2 items-end">
+          <div class="p-2 bg-zinc-800 text-white rounded-lg w-full">
+            <input
+              class="w-full l p-2 outline-none border-2 bg-transparent border-zinc-700 focus:border-purple-700 rounded-lg placeholder:text-zinc-600"
+              type="search"
+              placeholder="Find a book...."
+              name="search"
+              id="searchInput"
+            />
+          </div>
+          <div
+            id="main"
+            class="text-white flex flex-col lg:flex-row gap-5 w-full min-h-[80vh] h-full"
+          >
+            <section
+              id="completedBooksWrapper"
+              class="p-2 bg-zinc-800 flex-1 rounded-lg overflow-auto"
+            >
+              <h1 class="text-xl font-semibold p-2">Completed Books</h1>
+              <hr class="my-2 border-t-2 border-zinc-500" />
+              <div
+                id="completedBooksList"
+                class="grid grid-flow-row gap-y-2 max-h-[75vh] overflow-auto"
+              >
+                <button
+                  data-completed="true"
+                  class="add-btn border-2 p-5 flex justify-center gap-5 items-center border-dashed border-purple-700 text-purple-300 rounded-lg bg-zinc-700 bg-opacity-0 hover:bg-opacity-25 transition-all duration-200 ease-out"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    class="bi bi-plus-circle w-6 pointer-events-none"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                    />
+                    <path
+                      d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                    />
+                  </svg>
+                  <span class="text-md pointer-events-none">Create Book</span>
+                </button>
+              </div>
+            </section>
+            <section id="uncompletedBooksWrapper" class="p-2 bg-zinc-800 flex-1 rounded-lg">
+              <h1 class="text-xl font-semibold p-2">Uncompleted Books</h1>
+              <hr class="my-2 border-t-2 border-zinc-500" />
+              <div
+                id="uncompletedBooksList"
+                class="grid grid-flow-row gap-y-2 max-h-[75vh] overflow-auto"
+              >
+                <button
+                  data-completed="false"
+                  class="add-btn border-2 p-5 flex justify-center gap-5 items-center border-dashed border-purple-700 text-purple-300 rounded-lg bg-zinc-700 bg-opacity-0 hover:bg-opacity-25 transition-all duration-200 ease-out"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    class="bi bi-plus-circle w-6 pointer-events-none"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                    />
+                    <path
+                      d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                    />
+                  </svg>
+                  <span class="text-md pointer-events-none">Create Book</span>
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="assets/js/script.js"></script>
+  </body>
+</html>
