@@ -97,7 +97,7 @@ bookForm.addEventListener("submit", (e) => {
   book.id = Number(bookForm.elements["id"].value) || "";
   book.title = bookForm.elements["title"].value;
   book.author = bookForm.elements["author"].value;
-  book.year = bookForm.elements["year"].value;
+  book.year = Number(bookForm.elements["year"].value);
   book.isComplete = bookForm.elements["completed"].checked;
 
   if (type === "create") {
